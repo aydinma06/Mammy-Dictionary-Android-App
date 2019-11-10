@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.mammy.mammydictionary.R;
 import com.mammy.mammydictionary.controller.WordController;
@@ -27,7 +28,7 @@ public class DisplayFragment extends Fragment {
 
     private DisplayViewModel displayViewModel;
     private TextInputEditText textInputWord;
-    private Button buttonAddWord;
+    private MaterialButton buttonAddWord;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -69,9 +70,14 @@ public class DisplayFragment extends Fragment {
         buttonAddWord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                displayViewModel.hideKeyboardFrom(getContext(),root);
                 String enteredWord = textInputWord.getText().toString();
-                displayViewModel.addWordButtonClicked(enteredWord);
+                if(enteredWord.isEmpty())
+                    textInputWord.setError("This field cannot be empty.");
+                else
+                    displayViewModel.addWordButtonClicked(enteredWord);
                 Log.println(Log.DEBUG,"DisplayFragment",enteredWord);
+
             }
         });
     }

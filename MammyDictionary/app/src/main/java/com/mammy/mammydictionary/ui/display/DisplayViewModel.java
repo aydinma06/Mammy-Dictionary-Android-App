@@ -1,6 +1,10 @@
 package com.mammy.mammydictionary.ui.display;
 
+import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -75,5 +79,10 @@ public class DisplayViewModel extends ViewModel {
 
     public void setMeaning(List<String> meaning) {
         this.meaning.setValue(meaning);
+    }
+
+    public void hideKeyboardFrom(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
