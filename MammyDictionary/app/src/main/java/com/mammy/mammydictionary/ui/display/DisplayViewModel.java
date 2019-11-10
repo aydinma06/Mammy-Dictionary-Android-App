@@ -13,6 +13,7 @@ import com.mammy.mammydictionary.model.Def;
 import com.mammy.mammydictionary.model.Tr;
 import com.mammy.mammydictionary.model.Word;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -21,20 +22,23 @@ import retrofit2.Response;
 
 public class DisplayViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private MutableLiveData<List<String>> meaning;
     private WordController wordController;
 
     public DisplayViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        meaning = new MutableLiveData<>();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<List<String>> getText() {
+        return meaning;
     }
 
     public void addWordButtonClicked(String enteredWord){
         //TODO:Rename this function
+        translateWord(enteredWord);
+    }
+
+    public void translateWord(String enteredWord){
         wordController = new WordController();
         APIService apiService = wordController.getWordAPI(enteredWord);
 
@@ -44,8 +48,7 @@ public class DisplayViewModel extends ViewModel {
             public void onResponse(Call<Word> call, Response<Word> response) {
                 if(response.isSuccessful()) {
                     Word word = response.body();
-                    Def translatedWord = word.getDef().get(0);
-                    parseTranslatedWord(translatedWord);
+                    getMeaningTranslatedWord(word);
                 } else {
                     Log.println(Log.ERROR,"WordController",response.errorBody().toString());
                 }
@@ -58,8 +61,19 @@ public class DisplayViewModel extends ViewModel {
         });
     }
 
-    public void parseTranslatedWord(Def translatedWord){
-        List<Tr> tr = translatedWord.getTr();
-        System.out.println(tr);
+    public void getMeaningTranslatedWord(Word translatedWord){
+        List<String> meaningList = new ArrayList<>();
+        List<Def> defList = translatedWord.getDef();
+        for (Def def : defList){
+            List<Tr> trList = def.getTr();
+            for (Tr tr : trList){
+                meaningList.add(tr.getText().toLowerCase());
+            }
+        }
+        setMeaning(meaningList);
+    }
+
+    public void setMeaning(List<String> meaning) {
+        this.meaning.setValue(meaning);
     }
 }
