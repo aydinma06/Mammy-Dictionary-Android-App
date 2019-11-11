@@ -1,15 +1,19 @@
 package com.mammy.mammydictionary.ui.display;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -17,40 +21,31 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
+import com.mammy.mammydictionary.MainActivity;
 import com.mammy.mammydictionary.R;
-import com.mammy.mammydictionary.controller.WordController;
+import com.mammy.mammydictionary.repository.WordEntity;
 import com.mammy.mammydictionary.repository.WordRepository;
+import com.mammy.mammydictionary.ui.wordaddition.WordAdditionAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DisplayFragment extends Fragment {
 
     private DisplayViewModel displayViewModel;
-    private TextInputEditText textInputWord;
-    private MaterialButton buttonAddWord;
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private DisplayAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    private View root;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         displayViewModel =
                 ViewModelProviders.of(this).get(DisplayViewModel.class);
-        root = inflater.inflate(R.layout.fragment_home, container, false);
-        initializeComponents();
-        return root;
-    }
+        View root = inflater.inflate(R.layout.fragment_display, container, false);
+        final TextView textViewWord = root.findViewById(R.id.textview_display_word);
+        final TextView textViewMean = root.findViewById(R.id.textview_display_mean);
+        recyclerView = root.findViewById(R.id.recycler_view_display);
 
-    private void initializeComponents(){
-        textInputWord = root.findViewById(R.id.text_input_word);
-        buttonAddWord = root.findViewById(R.id.button_add_word);
-        recyclerView = root.findViewById(R.id.recycler_view_meaning_word);
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
         recyclerView.setHasFixedSize(true);
 
         layoutManager = new LinearLayoutManager(getContext());
@@ -61,27 +56,38 @@ public class DisplayFragment extends Fragment {
         recyclerView.addItemDecoration(dividerItemDecoration);
 
 
-        displayViewModel.getText().observe(this, new Observer<List<String>>() {
-            @Override
-            public void onChanged(@Nullable List<String> s) {
-                mAdapter = new DisplayAdapter(s);
-                recyclerView.setAdapter(mAdapter);
-            }
-        });
-        buttonAddWord.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                displayViewModel.hideKeyboardFrom(getContext(),root);
-                String enteredWord = textInputWord.getText().toString();
-                WordRepository wordRepository = new WordRepository(getContext());
-                if(enteredWord.isEmpty())
-                    textInputWord.setError("This field cannot be empty.");
-                else
-                    displayViewModel.addWordButtonClicked(enteredWord,wordRepository); //TODO : Daha iyi bir çözüm ara
-                Log.println(Log.DEBUG,"DisplayFragment",enteredWord);
+        WordRepository wordRepository = new WordRepository(getContext());
+        List<WordEntity> wordEntities = displayViewModel.getAllWords(wordRepository);
 
-            }
-        });
+        mAdapter = new DisplayAdapter(wordEntities);
+        recyclerView.setAdapter(mAdapter);
+        setHasOptionsMenu(true);
+        return root;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.menu_item, menu);
+        MenuItem item = menu.findItem(R.id.menu_search);
+        SearchView searchView = new SearchView(((AppCompatActivity)getActivity()).getSupportActionBar().getThemedContext());
+        MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
+        MenuItemCompat.setActionView(item, searchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mAdapter.getFilter().filter(newText);
+                return true;
+            }
+        });
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 }

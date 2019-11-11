@@ -3,19 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@id/navigation_dashboard">
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.mammy.mammydictionary.ui.display.DisplayFragment"
+        android:name="com.mammy.mammydictionary.ui.wordaddition.WordAdditionFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_addition" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.mammy.mammydictionary.ui.addition.AdditionFragment"
+        android:name="com.mammy.mammydictionary.ui.display.DisplayFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_display" />
 
     <fragment
         android:id="@+id/navigation_notifications"
