@@ -21,6 +21,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.mammy.mammydictionary.R;
 import com.mammy.mammydictionary.controller.WordController;
+import com.mammy.mammydictionary.repository.WordRepository;
 
 import java.util.List;
 
@@ -72,10 +73,11 @@ public class DisplayFragment extends Fragment {
             public void onClick(View v) {
                 displayViewModel.hideKeyboardFrom(getContext(),root);
                 String enteredWord = textInputWord.getText().toString();
+                WordRepository wordRepository = new WordRepository(getContext());
                 if(enteredWord.isEmpty())
                     textInputWord.setError("This field cannot be empty.");
                 else
-                    displayViewModel.addWordButtonClicked(enteredWord);
+                    displayViewModel.addWordButtonClicked(enteredWord,wordRepository); //TODO : Daha iyi bir çözüm ara
                 Log.println(Log.DEBUG,"DisplayFragment",enteredWord);
 
             }
