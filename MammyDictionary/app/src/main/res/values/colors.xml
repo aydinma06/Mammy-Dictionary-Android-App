@@ -3,4 +3,15 @@
     <color name="colorPrimary">#ffdd59</color>
     <color name="colorPrimaryDark">#ffd32a</color>
     <color name="colorAccent">#ffc048</color>
+    <color name="darkGrey">#272727</color>
+    <color name="darkLighterGrey">#363636</color>
+    <color name="darkBackground">#121212</color>
+    <color name="darkSurface">#121212</color>
+    <color name="darkestBlack">#000000</color>
+    <color name="darkError">#CF6679</color>
+    <color name="darkerError">#B00020</color>
+    <color name="darkPurple">#BB86FC</color>
+    <color name="brightBackgroundText">#DEFFFFFF</color>
+    <color name="brightBackgroundHint">#99FFFFFF</color>
+
 </resources>

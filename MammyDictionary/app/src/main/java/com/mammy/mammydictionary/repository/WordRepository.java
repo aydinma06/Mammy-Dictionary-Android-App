@@ -2,6 +2,7 @@ package com.mammy.mammydictionary.repository;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.room.Room;
 
@@ -30,7 +31,13 @@ public class WordRepository {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                wordDatabase.wordDao().addWord(word);
+                try{
+                    wordDatabase.wordDao().addWord(word);
+                }
+                catch (Exception e){
+                    Log.println(Log.ASSERT,"WordRepository","insertWord -> Error occered when word adding database.");
+                }
+
                 return null;
             }
         }.execute();

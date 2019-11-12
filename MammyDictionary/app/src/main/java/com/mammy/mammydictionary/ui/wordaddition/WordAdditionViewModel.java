@@ -52,8 +52,15 @@ public class WordAdditionViewModel extends ViewModel {
     public void translateWord(String enteredWord){
         wordEntity.setWord(enteredWord);
         WordEntity foundWord = wordRepository.getWord(enteredWord);
-        if(foundWord == null)
-            getWordFromAPI(enteredWord);
+        if(foundWord == null){
+            try{
+                getWordFromAPI(enteredWord);
+            }
+            catch (Exception e){
+                Log.getStackTraceString(e);
+            }
+
+        }
         else {
             List<String> meanList = convertMeaningtoList(foundWord.getMeaning());
             this.meaning.setValue(meanList);
@@ -71,8 +78,14 @@ public class WordAdditionViewModel extends ViewModel {
             public void onResponse(Call<Word> call, Response<Word> response) {
                 if(response.isSuccessful()) {
                     Word word = response.body();
-                    getMeaningTranslatedWord(word);
-                    addDatabase();
+                    try{
+                        getMeaningTranslatedWord(word);
+                        addDatabase();
+                    }
+                    catch (Exception e){
+                        Log.println(Log.ASSERT,"WordAdditionViewModel","getWordFromAPI -> Response return null.");
+                    }
+
                 } else {
                     Log.println(Log.ERROR,"WordController",response.errorBody().toString());
                 }
@@ -103,17 +116,20 @@ public class WordAdditionViewModel extends ViewModel {
     }
 
     private void addDatabase(){
-        wordRepository.insertWord(wordEntity);
-        List<WordEntity> wordEntityList = wordRepository.getAllWords();
-        System.out.println(wordEntityList.toString());
+        try{
+            wordRepository.insertWord(wordEntity);
+        }
+        catch (Exception e){
+            Log.println(Log.ASSERT,"WordAdditionViewModel","addDatabase -> Error occered when word adding database.");
+        }
     }
 
     public String convertMeaningtoString(List<String> meaning) {
         String totalMean = "";
         for (String mean:meaning) {
-            totalMean += mean + ", ";
+            totalMean += mean + ",";
         }
-        return totalMean.substring(0,totalMean.length() - 2); // Son virgülü silmek için
+        return totalMean.substring(0,totalMean.length() - 1); // Son virgülü silmek için
         //TODO: Daha iyi bir çözüm araştır
     }
 

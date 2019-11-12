@@ -14,7 +14,7 @@
         android:layout_width="150dp"
         android:layout_height="match_parent"
         android:textSize="20sp"
-        android:textColor="#ff9f1a"
+        android:textColor="@color/darkPurple"
         android:textStyle="bold"/>
 
     <TextView
@@ -22,6 +22,7 @@
         android:id="@+id/textview_display_mean"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:textColor="@color/brightBackgroundText"/>
 
 </LinearLayout>
