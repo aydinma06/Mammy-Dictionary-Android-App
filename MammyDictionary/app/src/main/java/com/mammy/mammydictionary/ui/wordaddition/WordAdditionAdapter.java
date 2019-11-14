@@ -35,7 +35,7 @@ public class WordAdditionAdapter extends RecyclerView.Adapter<WordAdditionAdapte
 
     @Override
     public void onBindViewHolder(DisplayViewHolder holder, int position) {
-        holder.textView.setText(mDataset.get(position));
+        holder.textView.setText(mDataset.get(position).trim());
 
     }
 

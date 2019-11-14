@@ -127,9 +127,9 @@ public class WordAdditionViewModel extends ViewModel {
     public String convertMeaningtoString(List<String> meaning) {
         String totalMean = "";
         for (String mean:meaning) {
-            totalMean += mean + ",";
+            totalMean += mean + ", ";
         }
-        return totalMean.substring(0,totalMean.length() - 1); // Son virgülü silmek için
+        return totalMean.substring(0,totalMean.length() - 2); // Son virgülü silmek için
         //TODO: Daha iyi bir çözüm araştır
     }
 
