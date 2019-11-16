@@ -20,6 +20,9 @@ public interface WordDao {
     @Query("SELECT * FROM WordDetails")
     List<WordEntity> getAllWords();
 
+    @Query("SELECT * FROM WordDetails ORDER BY RANDOM() LIMIT 5")
+    List<WordEntity> getRandomFiveWords();
+
     @Query("SELECT * FROM WordDetails where word LIKE  :searchingWord")
     WordEntity findWord(String searchingWord);
 

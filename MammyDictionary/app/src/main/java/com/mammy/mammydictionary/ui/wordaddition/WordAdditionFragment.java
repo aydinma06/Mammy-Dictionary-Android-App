@@ -61,8 +61,13 @@ public class WordAdditionFragment extends Fragment {
         wordAdditionViewModel.getText().observe(this, new Observer<List<String>>() {
             @Override
             public void onChanged(@Nullable List<String> s) {
-                mAdapter = new WordAdditionAdapter(s);
-                recyclerView.setAdapter(mAdapter);
+                if (s.isEmpty()){
+                    textInputWord.setError("There is no meaning for this word.");
+                }
+                else {
+                    mAdapter = new WordAdditionAdapter(s);
+                    recyclerView.setAdapter(mAdapter);
+                }
             }
         });
         buttonAddWord.setOnClickListener(new View.OnClickListener() {

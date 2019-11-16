@@ -79,8 +79,15 @@ public class WordAdditionViewModel extends ViewModel {
                 if(response.isSuccessful()) {
                     Word word = response.body();
                     try{
-                        getMeaningTranslatedWord(word);
-                        addDatabase();
+                        if(!word.getDef().isEmpty()){
+                            getMeaningTranslatedWord(word);
+                            addDatabase();
+                        }
+                        else{
+                            meaning.setValue(new ArrayList<String>());
+
+                        }
+
                     }
                     catch (Exception e){
                         Log.println(Log.ASSERT,"WordAdditionViewModel","getWordFromAPI -> Response return null.");

@@ -72,4 +72,8 @@ public class WordRepository {
     public List<WordEntity> getAllWords() {
         return wordDatabase.wordDao().getAllWords();
     }
+
+    public List<WordEntity> getRandomFiveWords() {
+        return wordDatabase.wordDao().getRandomFiveWords();
+    }
 }

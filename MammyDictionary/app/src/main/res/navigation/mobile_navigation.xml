@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/navigation_home">
+    app:startDestination="@id/navigation_wordaddition">
 
     <fragment
-        android:id="@+id/navigation_home"
+        android:id="@+id/navigation_wordaddition"
         android:name="com.mammy.mammydictionary.ui.wordaddition.WordAdditionFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_addition" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_display"
         android:name="com.mammy.mammydictionary.ui.display.DisplayFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_display" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.mammy.mammydictionary.ui.notifications.NotificationsFragment"
+        android:id="@+id/navigation_dailywords"
+        android:name="com.mammy.mammydictionary.ui.dailywords.DailyWordsFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_dailywords" />
 </navigation>
