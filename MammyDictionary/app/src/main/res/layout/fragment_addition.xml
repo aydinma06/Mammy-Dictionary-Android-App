@@ -8,11 +8,11 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_input_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Type a word"
-        android:textColorHint="@color/darkPurple"
         android:textColorHighlight="@color/brightBackgroundHint"
+        android:textColorHint="@color/darkPurple"
         app:boxStrokeColor="@color/darkPurple"
         app:counterEnabled="true"
         app:counterMaxLength="45"
@@ -26,7 +26,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/text_input_word"
-            android:layout_width="284dp"
+            android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginStart="55dp"
             android:layout_marginLeft="10dp"

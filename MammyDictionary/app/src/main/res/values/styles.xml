@@ -22,4 +22,11 @@
         <item name="android:textColor">@color/darkPurple</item>
     </style>
 
+    <style name="CustomAlertDialog" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:background">@color/darkGrey</item>
+        <item name="android:textColorPrimary">@color/brightBackgroundText</item>
+    </style>
+
+
+
 </resources>

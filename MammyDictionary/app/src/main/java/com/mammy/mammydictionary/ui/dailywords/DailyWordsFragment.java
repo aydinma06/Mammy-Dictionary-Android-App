@@ -1,9 +1,12 @@
 package com.mammy.mammydictionary.ui.dailywords;
 
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -37,9 +40,13 @@ public class DailyWordsFragment extends Fragment {
 
         recyclerView = root.findViewById(R.id.recycler_view_dailywords);
         recyclerView.setHasFixedSize(true);
+        TypedValue outValue = new TypedValue();
+        getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
+        recyclerView.setBackgroundResource(outValue.resourceId);
 
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
+
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.recycler_view_divider));
@@ -48,7 +55,7 @@ public class DailyWordsFragment extends Fragment {
         WordRepository wordRepository = new WordRepository(getContext());
         List<WordEntity> wordEntities = dailyWordsViewModel.getRandomFiveWords(wordRepository);
 
-        mAdapter = new DailyWordsAdapter(wordEntities);
+        mAdapter = new DailyWordsAdapter(getContext(), wordEntities);
         recyclerView.setAdapter(mAdapter);
         setHasOptionsMenu(true);
 
